@@ -1,0 +1,33 @@
+// 1. Total number of documents
+db.NR.countDocuments()
+
+// 2. Number of movies where the United States appears in the "Country" field
+db.NR.countDocuments({"Country": "United States"})
+
+// 3. Film with the largest cast (actors only)
+db.NR.find({}, {"_id": 0, "Title": 1, "PeopleInvolved.Cast": 1}).sort({"$size": "$PeopleInvolved.Cast"}).limit(1)
+
+// 4. Number of movies directed by Amr Arafa
+db.NR.countDocuments({"PeopleInvolved.Director": "Amr Arafa"})
+
+// 5. Number of movies with duration larger than 120 min
+db.NR.countDocuments({"Duration": {"$gt": 120}})
+
+// 6. One-dimensional histograms of nominations and wins, and plot wins vs nominations
+// Histogram of nominations
+db.NR.aggregate([
+    {"$group": {"_id": "$Awards.Nominations", "count": {"$sum": 1}}},
+    {"$sort": {"_id": 1}}
+])
+
+// Histogram of wins
+db.NR.aggregate([
+    {"$group": {"_id": "$Awards.Win", "count": {"$sum": 1}}},
+    {"$sort": {"_id": 1}}
+])
+
+// Plot wins vs nominations
+db.NR.aggregate([
+    {"$group": {"_id": {"nominations": "$Awards.Nominations", "wins": "$Awards.Win"}, "count": {"$sum": 1}}},
+    {"$project": {"_id": 0, "nominations": "$_id.nominations", "wins": "$_id.wins", "count": 1}}
+])
