@@ -5,7 +5,7 @@ db.NR.countDocuments()
 db.NR.countDocuments({"Country": "United States"})
 
 // 3. Film with the largest cast (actors only)
-db.NR.find({}, {"_id": 0, "Title": 1, "PeopleInvolved.Cast": 1}).sort({"$size": "$PeopleInvolved.Cast"}).limit(1)
+db.NR.aggregate([{"$project": {"Title":1,"CastSize": {"size": "$PeopleInvolved.Cast"}}},{"$sort":{"CastSize": -1}},{"$limit":1}])
 
 // 4. Number of movies directed by Amr Arafa
 db.NR.countDocuments({"PeopleInvolved.Director": "Amr Arafa"})
