@@ -1,4 +1,4 @@
-db.your_collection.find().limit(2)
+db.NR.find().limit(2)
 
 
 // 1. Total number of documents
