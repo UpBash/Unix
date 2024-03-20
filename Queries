@@ -11,8 +11,7 @@ db.NR.aggregate([{"$project": {"Title":1,"CastSize": {"size": "$PeopleInvolved.C
 db.NR.countDocuments({"PeopleInvolved.Director": "Amr Arafa"})
 
 // 5. Number of movies with duration larger than 120 min
-db.NR.updateMany({"Duration": {"$regex": "\\d+ min"}}, [{"$set": {"Duration": {"$toInt": {"$regexFind": {"input": "$Duration", "regex": "\\d+"}}}}}])
-
+db.collectionName.countDocuments({"Duration": {"$gt": 120}})
 
 // 6. One-dimensional histograms of nominations and wins, and plot wins vs nominations
 // Histogram of nominations
