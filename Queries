@@ -34,3 +34,8 @@ db.NR.aggregate([
     {"$group": {"_id": {"nominations": "$Awards.Nominations", "wins": "$Awards.Win"}, "count": {"$sum": 1}}},
     {"$project": {"_id": 0, "nominations": "$_id.nominations", "wins": "$_id.wins", "count": 1}}
 ])
+
+
+
+#Only mongo
+db.NR1.aggregate([{$lookup:{from:"NR2",localField:"ID",foreignField:"ID",as:"data2"}},{$lookup:{from:"NR3",localField:"ID",foreignField:"ID",as:"data3"}},{$out:"NR4"}]);
